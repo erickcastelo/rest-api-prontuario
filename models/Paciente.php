@@ -21,6 +21,7 @@ use yii\validators\EmailValidator;
  * @property integer $codpais
  * @property string $responsavel
  * @property string $numero
+ * @property string $foto
  *
  * @property Consulta[] $consultas
  */
@@ -45,6 +46,7 @@ class Paciente extends \yii\db\ActiveRecord
             [['email', 'senha', 'responsavel'], 'string', 'max' => 60],
             [['rg'], 'string', 'max' => 13],
             [['cpf'], 'string', 'max' => 11],
+            [['foto'], 'string', 'max' => 120],
             [['accesstoken', 'authkey'], 'string', 'max' => 120],
             [['fone'], 'string', 'max' => 9],
             [['nome'], 'string', 'max' => 90],

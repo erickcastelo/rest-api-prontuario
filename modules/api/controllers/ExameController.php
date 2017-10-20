@@ -82,17 +82,11 @@ class ExameController extends ActiveController
                 array_push($array, Json::decode($item));
             }
 
-            \Yii::$app->db
+            return \Yii::$app->db
                 ->createCommand()
                 ->batchInsert(SolicitacaoExames::tableName(),
                     ['numeroexamelaboratorial', 'codigoconsulta', 'datacriacao'], $array)
                 ->execute();
-
-//            $model = new SolicitacaoExames();
-//            $model->datacriacao = date('Y-m-d H:i:s');
-//            $model->numero = "EXA-". date('d/m/Y') - ;
-
-            return $array;
         }
     }
 }

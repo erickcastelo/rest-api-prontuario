@@ -137,4 +137,16 @@ class PacienteController extends ActiveController
             return $model->errors;
         }
     }
+
+    public function actionListPacientes()
+    {
+        \Yii::$app->response->format = \yii\web\Response:: FORMAT_JSON;
+
+        $query = Paciente::find()
+            ->orderBy('nome')
+            ->asArray()
+            ->all();
+
+        return $query;
+    }
 }

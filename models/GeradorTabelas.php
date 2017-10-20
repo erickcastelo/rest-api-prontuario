@@ -366,30 +366,30 @@ class GeradorTabelas
 
     public function gerarValoresReferenciaGlicose()
     {
-//        $valores = [
-//            0 => [
-//                'faixaetaria' => 'NORMAL',
-//                'intervalo1' => '70.00a99.00',
-//                'unidade' => 'mg/dL',
-//                'numeroexamelaboratorial' => '2'
-//            ],
-//            1 => [
-//                'faixaetaria' => 'INTOLERANCIA GLICOSE JEJUM',
-//                'intervalo1' => '100.00a125.00',
-//                'unidade' => 'mg/dL',
-//                'numeroexamelaboratorial' => '2'
-//            ]
-//        ];
-//
-//        \Yii::$app->db
-//            ->createCommand()
-//            ->batchInsert(ValorReferencia::tableName(), ['faixaetaria','intervalo1', 'unidade', 'numeroexamelaboratorial'], $valores)
-//            ->execute();
-        $model = new ValorReferencia();
-        $model->faixaetaria = 'DIABETES MELLITUS';
-        $model->intervalo1 = '>126';
-        $model->unidade = 'mg/dL';
-        $model->numeroexamelaboratorial = '2';
-        $model->save();
+        $valores = [
+            0 => [
+                'faixaetaria' => 'NORMAL',
+                'intervalo1' => '70.00a99.00',
+                'unidade' => 'mg/dL',
+                'numeroexamelaboratorial' => '2'
+            ],
+            1 => [
+                'faixaetaria' => 'INTOLERANCIA GLICOSE JEJUM',
+                'intervalo1' => '100.00a125.00',
+                'unidade' => 'mg/dL',
+                'numeroexamelaboratorial' => '2'
+            ],
+            2 => [
+                'faixaetaria' => 'DIABETES MELLITUS',
+                'intervalo1' => '>126',
+                'unidade' => 'mg/dL',
+                'numeroexamelaboratorial' => '2'
+            ]
+        ];
+
+        \Yii::$app->db
+            ->createCommand()
+            ->batchInsert(ValorReferencia::tableName(), ['faixaetaria','intervalo1', 'unidade', 'numeroexamelaboratorial'], $valores)
+            ->execute();
     }
 }

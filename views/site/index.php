@@ -3,19 +3,12 @@
 /* @var $this yii\web\View */
 
 use app\models\Consulta;
+use app\models\Paciente;
 use app\models\Pais;
+use yii\helpers\Html;
 
 $this->title = 'My Yii Application';
-$query = Consulta::find()
-    ->leftJoin('solicitacaoexames', 'codigoconsulta = codigo')
-    ->innerJoin('profissionalsaude', 'numeroprofissionalsaude = profissionalsaude.numero')
-    ->innerJoin('paciente', 'numeropaciente = paciente.numero')
-    ->where(['profissionalsaude.authkey' => '16fbfe10b91400c96af2ae60600f5a62'])
-    ->andWhere('solicitacaoexames.codigoconsulta is null')
-    ->asArray()
-    ->all();
-
-echo "<pre>", var_dump($query), "</pre>"; die;
+echo Html::img('img/usuarioPadrao.jpeg');
 
 ?>
 <div class="site-index">
