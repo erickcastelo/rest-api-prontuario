@@ -24,6 +24,7 @@ use yii\validators\EmailValidator;
  * @property string $emailprofissional
  * @property string $registro
  * @property integer $codprofissao
+ * @property string $foto
  *
  * @property Consulta[] $consultas
  * @property Profissao $codprofissao0
@@ -32,6 +33,7 @@ class ProfissionalSaude extends \yii\db\ActiveRecord
 {
 
     public $confirmPassword;
+    public $fotoFile;
 
     public static function tableName()
     {
@@ -47,13 +49,15 @@ class ProfissionalSaude extends \yii\db\ActiveRecord
             [['email', 'rg', 'cpf', 'fone', 'nome', 'senha', 'numero'], 'required'],
             [['datacriacao', 'datanascimento'], 'safe'],
             [['codpais', 'codprofissao'], 'integer'],
-            [['email', 'senha', 'responsavel', 'emailprofissional'], 'string', 'max' => 60],
+            [['email', 'senha', 'responsavel', 'emailprofissional', 'foto'], 'string', 'max' => 60],
             [['rg'], 'string', 'max' => 13],
             [['cpf'], 'string', 'max' => 11],
+            [['foto'], 'string'],
             [['accesstoken', 'authkey'], 'string', 'max' => 120],
             [['fone'], 'string', 'max' => 9],
             [['nome', 'registro'], 'string', 'max' => 90],
             [['numero'], 'string', 'max' => 40],
+            [['fotoFile'], 'file'],
             [['codprofissao'], 'exist', 'skipOnError' => true, 'targetClass' => Profissao::className(), 'targetAttribute' => ['codprofissao' => 'codigo']],
             [['email', 'rg', 'cpf'], 'unique'],
             ['email', 'validationEmail'],

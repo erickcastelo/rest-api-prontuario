@@ -11,11 +11,13 @@ namespace app\modules\api\controllers;
 use app\models\LoginForm;
 use app\models\ProfissionalSaude;
 use app\models\Usuario;
+use Faker\Provider\File;
 use Yii;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE, HEAD");
@@ -146,5 +148,29 @@ class ProfissionalSaudeController extends \yii\rest\Controller
             $model->validate();
             return $model;
         }
+    }
+
+    public function actionGetProfissional(){
+        $authkey =  Yii::$app->user->identity->getAuthKey();
+        $query = ProfissionalSaude::findOne(['authkey' =>$authkey]);
+
+        return $query;
+    }
+
+    public function actionSalvarFoto()
+    {
+        $request = Yii::$app->request;
+
+        $authkey =  Yii::$app->user->identity->getAuthKey();
+        if ($request->isPost){
+            $foto = $request->post('imagem');
+            $model = ProfissionalSaude::findOne(['authkey' => $authkey]);
+            $model->foto = $foto;
+            $model->save(false);
+
+            return $foto;
+        }        
+        
+       return null;
     }
 }

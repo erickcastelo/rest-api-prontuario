@@ -46,7 +46,7 @@ class Paciente extends \yii\db\ActiveRecord
             [['email', 'senha', 'responsavel'], 'string', 'max' => 60],
             [['rg'], 'string', 'max' => 13],
             [['cpf'], 'string', 'max' => 11],
-            [['foto'], 'string', 'max' => 120],
+            [['foto'], 'string'],
             [['accesstoken', 'authkey'], 'string', 'max' => 120],
             [['fone'], 'string', 'max' => 9],
             [['nome'], 'string', 'max' => 90],
