@@ -32,6 +32,7 @@ class LoginForm extends Model
             [['tipoPessoa', 'tipoSessao'], 'integer'],
             // rememberMe must be a boolean value
             [['rememberMe'],'boolean'],
+            [['email'],'email'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
             ['password', 'validaPessoa'],

@@ -49,7 +49,7 @@ class ProfissionalSaude extends \yii\db\ActiveRecord
             [['email', 'rg', 'cpf', 'fone', 'nome', 'senha', 'numero'], 'required'],
             [['datacriacao', 'datanascimento'], 'safe'],
             [['codpais', 'codprofissao'], 'integer'],
-            [['email', 'senha', 'responsavel', 'emailprofissional', 'foto'], 'string', 'max' => 60],
+            [['email', 'senha', 'responsavel', 'emailprofissional'], 'string', 'max' => 60],
             [['rg'], 'string', 'max' => 13],
             [['cpf'], 'string', 'max' => 11],
             [['foto'], 'string'],
@@ -60,7 +60,7 @@ class ProfissionalSaude extends \yii\db\ActiveRecord
             [['fotoFile'], 'file'],
             [['codprofissao'], 'exist', 'skipOnError' => true, 'targetClass' => Profissao::className(), 'targetAttribute' => ['codprofissao' => 'codigo']],
             [['email', 'rg', 'cpf'], 'unique'],
-            ['email', 'validationEmail'],
+            ['email', 'email', 'message' => 'Email inválido!'],
             ['confirmPassword', 'confirmationPassword']
         ];
     }
@@ -121,8 +121,13 @@ class ProfissionalSaude extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCodprofissao0()
+    public function getProfissao()
     {
         return $this->hasOne(Profissao::className(), ['codigo' => 'codprofissao']);
+    }
+
+    public function getPais()
+    {
+        return $this->hasOne(Pais::className(), ['codigo' => 'codpais']);
     }
 }

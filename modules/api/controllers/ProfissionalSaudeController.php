@@ -166,11 +166,27 @@ class ProfissionalSaudeController extends \yii\rest\Controller
             $foto = $request->post('imagem');
             $model = ProfissionalSaude::findOne(['authkey' => $authkey]);
             $model->foto = $foto;
-            $model->save(false);
+            $model->save();
 
             return $foto;
         }        
         
        return null;
+    }
+
+    public function actionAlterar()
+    {
+        $authkey = Yii::$app->user->identity->getAuthKey();
+        $model = ProfissionalSaude::findOne(['authkey' => $authkey]);
+
+        $dados = $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        if ($dados && $model->save()){
+
+            return true;
+        }
+        else{
+            $model->validate();
+            return $model;
+        }
     }
 }
