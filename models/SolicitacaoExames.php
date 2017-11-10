@@ -12,9 +12,9 @@ use Yii;
  * @property double $valor
  * @property string $datacriacao
  * @property integer $codigoconsulta
- * @property integer $numeroexameimagem
- * @property integer $numeroexamelaboratorial
  * @property string $cnpjcpfempresa
+ * @property string $autorizacaoEmpresa
+ * @property string $autorizacaoProfissional
  *
  * @property Classificacao $numeroexamelaboratorial0
  * @property Consulta $codigoconsulta0
@@ -43,10 +43,11 @@ class SolicitacaoExames extends \yii\db\ActiveRecord
             [['descricao'], 'string', 'max' => 120],
             [['numeroexamelaboratorial'], 'string', 'max' => 5],
             [['cnpjcpfempresa'], 'string', 'max' => 15],
-            [['numeroexamelaboratorial'], 'exist', 'skipOnError' => true, 'targetClass' => ExameLaboratorial::className(), 'targetAttribute' => ['numeroexamelaboratorial' => 'numero']],
+            [['autorizacaoProfissional', 'autorizacaoEmpresa'], 'string', 'max' => 1],
+//            [['numeroexamelaboratorial'], 'exist', 'skipOnError' => true, 'targetClass' => ExameLaboratorial::className(), 'targetAttribute' => ['numeroexamelaboratorial' => 'numero']],
             [['codigoconsulta'], 'exist', 'skipOnError' => true, 'targetClass' => Consulta::className(), 'targetAttribute' => ['codigoconsulta' => 'codigo']],
             [['cnpjcpfempresa'], 'exist', 'skipOnError' => true, 'targetClass' => Empresa::className(), 'targetAttribute' => ['cnpjcpfempresa' => 'cnpjcpf']],
-            [['numeroexameimagem'], 'exist', 'skipOnError' => true, 'targetClass' => Exameimagem::className(), 'targetAttribute' => ['numeroexameimagem' => 'numero']],
+//            [['numeroexameimagem'], 'exist', 'skipOnError' => true, 'targetClass' => Exameimagem::className(), 'targetAttribute' => ['numeroexameimagem' => 'numero']],
         ];
     }
 
@@ -102,8 +103,8 @@ class SolicitacaoExames extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getNumeroexameimagem0()
-    {
-        return $this->hasOne(Exameimagem::className(), ['numero' => 'numeroexameimagem']);
-    }
+//    public function getNumeroexameimagem0()
+//    {
+//        return $this->hasOne(Exameimagem::className(), ['numero' => 'numeroexameimagem']);
+//    }
 }

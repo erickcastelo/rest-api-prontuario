@@ -11,7 +11,6 @@ use Yii;
  * @property string $nome
  * @property integer $numeroclassificacao
  * @property integer $possui
- * @property string $resultado
  *
  * @property Classificacao $numeroclassificacao0
  * @property ExameLaboratorial $possui0
@@ -37,7 +36,6 @@ class ExameLaboratorial extends \yii\db\ActiveRecord
             [['numero', 'nome'], 'required'],
             [['nome'], 'string', 'max' => 60],
             [['numero', 'possui'], 'string', 'max' => 5],
-            [['resultado'], 'string', 'max' => 90],
             [['numeroclassificacao'], 'integer'],
             [['numeroclassificacao'], 'exist', 'skipOnError' => true, 'targetClass' => Classificacao::className(), 'targetAttribute' => ['numeroclassificacao' => 'numero']],
             [['possui'], 'exist', 'skipOnError' => true, 'targetClass' => ExameLaboratorial::className(), 'targetAttribute' => ['possui' => 'numero']],

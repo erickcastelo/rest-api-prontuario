@@ -9,10 +9,14 @@ use Yii;
  *
  * @property string $cnpjcpf
  * @property string $nome
+ * @property string $email
+ * @property string $senha
  * @property string $fantasia
  * @property string $fone
  * @property string $endereco
  * @property string $bairro
+ * @property string $servicoLaboratorial
+ * @property string $servicoImagem
  *
  * @property Solicitacaoexames[] $solicitacaoexames
  */
@@ -36,7 +40,8 @@ class Empresa extends \yii\db\ActiveRecord
             [['cnpjcpf'], 'string', 'max' => 15],
             [['nome', 'fantasia'], 'string', 'max' => 90],
             [['fone'], 'string', 'max' => 11],
-            [['endereco'], 'string', 'max' => 60],
+            [['servicoLaboratorial', 'servicoImagem'], 'string', 'max' => 30],
+            [['endereco', 'email', 'senha'], 'string', 'max' => 60],
             [['bairro'], 'string', 'max' => 45],
         ];
     }
