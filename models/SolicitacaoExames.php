@@ -10,6 +10,7 @@ use Yii;
  * @property integer $numero
  * @property string $descricao
  * @property double $valor
+ * @property string $data
  * @property string $datacriacao
  * @property integer $codigoconsulta
  * @property string $cnpjcpfempresa
@@ -38,7 +39,7 @@ class SolicitacaoExames extends \yii\db\ActiveRecord
     {
         return [
             [['valor'], 'number'],
-            [['datacriacao'], 'safe'],
+            [['data', 'datacriacao'], 'safe'],
             [['codigoconsulta', 'numeroexameimagem'], 'integer'],
             [['descricao'], 'string', 'max' => 120],
             [['numeroexamelaboratorial'], 'string', 'max' => 5],

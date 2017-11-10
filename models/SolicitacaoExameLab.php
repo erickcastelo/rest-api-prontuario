@@ -11,6 +11,7 @@ use Yii;
  * @property string $resultado
  * @property integer $numerosolicitacao
  * @property string $numeroexamelab
+ * @property string $datacriacao
  *
  * @property Examelaboratorial $numeroexamelab0
  * @property Solicitacaoexames $numerosolicitacao0

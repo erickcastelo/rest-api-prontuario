@@ -10,6 +10,7 @@ namespace app\modules\api\controllers;
 
 
 use app\models\ExameLaboratorial;
+use app\models\SolicitacaoExameLab;
 use app\models\SolicitacaoExames;
 use Yii;
 use yii\filters\auth\CompositeAuth;
@@ -67,6 +68,7 @@ class ExameController extends ActiveController
         return $query;
     }
 
+
     public function actionSolicitarExame()
     {
         \Yii::$app->response->format = \yii\web\Response:: FORMAT_JSON;
@@ -74,19 +76,26 @@ class ExameController extends ActiveController
         $request = Yii::$app->request;
         $array = [];
 
-        $solicitacaoExames = new SolicitacaoExames();
+        $solicitacao = new SolicitacaoExames();
 
+        /** @var $solicitacao SolicitacaoExames */
         if ($request->isPost){
             $exames = $request->post();
+            $solicitacao->codigoconsulta = $exames[0]['codigoconsulta'];
+
+            //pendente
+            $solicitacao->autorizacaoProfissional = 'p';
+
+            if (true)
             foreach ($exames as $item){
                 array_push($array, Json::decode($item));
             }
-
-            return \Yii::$app->db
-                ->createCommand()
-                ->batchInsert(SolicitacaoExames::tableName(),
-                    ['numeroexamelaboratorial', 'codigoconsulta', 'datacriacao'], $array)
-                ->execute();
+//
+//            return \Yii::$app->db
+//                ->createCommand()
+//                ->batchInsert(SolicitacaoExameLab::tableName(),
+//                    ['numeroexamelaboratorial', 'codigoconsulta', 'datacriacao'], $array)
+//                ->execute();
         }
     }
 }
