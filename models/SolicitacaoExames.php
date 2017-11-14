@@ -14,13 +14,11 @@ use Yii;
  * @property string $datacriacao
  * @property integer $codigoconsulta
  * @property string $cnpjcpfempresa
- * @property string $autorizacaoEmpresa
- * @property string $autorizacaoProfissional
+ * @property string $autorizacaoempresa
+ * @property string $autorizacaoprofissional
  *
- * @property Classificacao $numeroexamelaboratorial0
  * @property Consulta $codigoconsulta0
  * @property Empresa $cnpjcpfempresa0
- * @property Exameimagem $numeroexameimagem0
  */
 class SolicitacaoExames extends \yii\db\ActiveRecord
 {
@@ -40,11 +38,10 @@ class SolicitacaoExames extends \yii\db\ActiveRecord
         return [
             [['valor'], 'number'],
             [['data', 'datacriacao'], 'safe'],
-            [['codigoconsulta', 'numeroexameimagem'], 'integer'],
+            [['codigoconsulta'], 'integer'],
             [['descricao'], 'string', 'max' => 120],
-            [['numeroexamelaboratorial'], 'string', 'max' => 5],
             [['cnpjcpfempresa'], 'string', 'max' => 15],
-            [['autorizacaoProfissional', 'autorizacaoEmpresa'], 'string', 'max' => 1],
+            [['autorizacaoprofissional', 'autorizacaoempresa'], 'string', 'max' => 1],
 //            [['numeroexamelaboratorial'], 'exist', 'skipOnError' => true, 'targetClass' => ExameLaboratorial::className(), 'targetAttribute' => ['numeroexamelaboratorial' => 'numero']],
             [['codigoconsulta'], 'exist', 'skipOnError' => true, 'targetClass' => Consulta::className(), 'targetAttribute' => ['codigoconsulta' => 'codigo']],
             [['cnpjcpfempresa'], 'exist', 'skipOnError' => true, 'targetClass' => Empresa::className(), 'targetAttribute' => ['cnpjcpfempresa' => 'cnpjcpf']],

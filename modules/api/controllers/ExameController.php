@@ -45,7 +45,7 @@ class ExameController extends ActiveController
             'authMethods' => [
                 HttpBearerAuth::className(),
             ],
-            'except' => [''],
+            'except' => ['solicitar-exame'],
         ];
 
         $behaviors['contentNegotiator'] = [
@@ -75,27 +75,37 @@ class ExameController extends ActiveController
 
         $request = Yii::$app->request;
         $array = [];
+        $arrayAux = [];
 
         $solicitacao = new SolicitacaoExames();
 
         /** @var $solicitacao SolicitacaoExames */
         if ($request->isPost){
             $exames = $request->post();
-            $solicitacao->codigoconsulta = $exames[0]['codigoconsulta'];
 
-            //pendente
-            $solicitacao->autorizacaoProfissional = 'p';
-
-            if (true)
+            $i = 0;
             foreach ($exames as $item){
-                array_push($array, Json::decode($item));
+                array_push($arrayAux, Json::decode($item));
             }
-//
-//            return \Yii::$app->db
-//                ->createCommand()
-//                ->batchInsert(SolicitacaoExameLab::tableName(),
-//                    ['numeroexamelaboratorial', 'codigoconsulta', 'datacriacao'], $array)
-//                ->execute();
+
+            foreach ($arrayAux as $item){
+                $array[$i] = [
+                    'numeroexamelab' => $item['numeroexamelaboratorial'],
+                    'numerosolicitacao' => $solicitacao->lastNumber() + 1
+                ];
+                $i++;
+            }
+
+            $solicitacao->codigoconsulta = $arrayAux[0]['codigoconsulta'];
+            $solicitacao->autorizacaoprofissional = 'p';
+
+            $solicitacao->save();
+
+            return \Yii::$app->db
+            ->createCommand()
+            ->batchInsert(SolicitacaoExameLab::tableName(),
+                ['numeroexamelab', 'numerosolicitacao'], $array)
+            ->execute();
         }
     }
 }

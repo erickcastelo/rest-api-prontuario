@@ -10,8 +10,6 @@ use yii\helpers\Html;
 use yii\web\UploadedFile;
 
 $this->title = 'My Yii Application';
-$query = ProfissionalSaude::findOne(['authkey' => 'ecd0c24f89bfd0b266bdb42e7f15320c']);
-echo "<pre>", var_dump($query), "</pre>"; die;
 ?>
 <div class="site-index">
 
