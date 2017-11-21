@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\TesteComponent;
 use app\models\GeradorTabelas;
 use Yii;
 use yii\filters\AccessControl;

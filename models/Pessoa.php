@@ -21,6 +21,8 @@ use yii\validators\EmailValidator;
  * @property integer $codpais
  * @property string $responsavel
  * @property string $foto
+ * @property string $endereco
+ * @property string $bairro
  *
  * @property Pais $codpais0
  * @property Pessoa $responsavel0
@@ -44,11 +46,11 @@ class Pessoa extends \yii\db\ActiveRecord
             [['email', 'rg', 'cpf', 'fone', 'nome', 'senha'], 'required'],
             [['datacriacao', 'datanascimento'], 'safe'],
             [['codpais'], 'integer'],
-            [['email', 'senha', 'responsavel'], 'string', 'max' => 60],
+            [['email', 'senha', 'responsavel', 'bairro'], 'string', 'max' => 60],
             [['rg'], 'string', 'max' => 13],
             [['cpf'], 'string', 'max' => 11],
             [['foto'], 'string'],
-            [['accesstoken', 'authkey'], 'string', 'max' => 120],
+            [['accesstoken', 'authkey', 'endereco'], 'string', 'max' => 120],
             [['fone'], 'string', 'max' => 9],
             [['nome'], 'string', 'max' => 90],
             [['codpais'], 'exist', 'skipOnError' => true, 'targetClass' => Pais::className(), 'targetAttribute' => ['codpais' => 'codigo']],

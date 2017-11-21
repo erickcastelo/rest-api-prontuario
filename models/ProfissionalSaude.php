@@ -25,6 +25,8 @@ use yii\validators\EmailValidator;
  * @property string $registro
  * @property integer $codprofissao
  * @property string $foto
+ * @property string $endereco
+ * @property string $bairro
  *
  * @property Consulta[] $consultas
  * @property Profissao $codprofissao0
@@ -49,11 +51,11 @@ class ProfissionalSaude extends \yii\db\ActiveRecord
             [['email', 'rg', 'cpf', 'fone', 'nome', 'senha', 'numero'], 'required'],
             [['datacriacao', 'datanascimento'], 'safe'],
             [['codpais', 'codprofissao'], 'integer'],
-            [['email', 'senha', 'responsavel', 'emailprofissional'], 'string', 'max' => 60],
+            [['email', 'senha', 'responsavel', 'emailprofissional', 'bairro'], 'string', 'max' => 60],
             [['rg'], 'string', 'max' => 13],
             [['cpf'], 'string', 'max' => 11],
             [['foto'], 'string'],
-            [['accesstoken', 'authkey'], 'string', 'max' => 120],
+            [['accesstoken', 'authkey', 'endereco'], 'string', 'max' => 120],
             [['fone'], 'string', 'max' => 9],
             [['nome', 'registro'], 'string', 'max' => 90],
             [['numero'], 'string', 'max' => 40],

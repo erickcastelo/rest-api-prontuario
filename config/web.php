@@ -42,14 +42,6 @@ $config = [
             'loginUrl' => null,
         ],
 
-        'usuario' => [
-            'identityClass' => 'app\models\Usuario',
-            'class' => 'yii\web\Usuario',
-            'enableSession' => false,
-            //'enableAutoLogin' => false,
-            'loginUrl' => null,
-        ],
-
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
