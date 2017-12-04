@@ -27,6 +27,7 @@ use yii\web\IdentityInterface;
  * @property integer $codpais
  * @property string $responsavel
  * @property string $foto
+ * @property string $tipoempresa
  *
  * @property Solicitacaoexames[] $solicitacaoexames
  */
@@ -48,6 +49,7 @@ class Empresa extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             [['nome', 'endereco'], 'required'],
             [['cpf', 'cnpj'], 'string', 'max' => 15],
+            [['tipoempresa'], 'string', 'max' => 1],
             [['datacriacao', 'datanascimento'], 'safe'],
             [['cpf'], 'string', 'max' => 11],
             [['rg'], 'string', 'max' => 13],

@@ -10,12 +10,13 @@ use yii\helpers\Html;
 use yii\web\UploadedFile;
 
 $this->title = 'My Yii Application';
+
 ?>
 <div class="site-index">
 
     <div class="jumbotron">
         <h1>Congratulations!</h1>
-
+        <img src="<?= \yii\helpers\Url::to('img/usuarioPadrao.jpeg') ?>"/>
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>

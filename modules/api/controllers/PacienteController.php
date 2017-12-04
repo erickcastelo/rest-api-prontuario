@@ -14,8 +14,10 @@ use app\models\LoginForm;
 use app\models\Paciente;
 use app\models\Pessoa;
 use Yii;
+use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
+use yii\web\Response;
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE, HEAD");
@@ -33,46 +35,51 @@ class PacienteController extends ActiveController
 
         $behaviors = parent::behaviors();
 
-        // remove authentication filter
-        $auth = $behaviors['authenticator'];
         unset($behaviors['authenticator']);
 
-        // add CORS filter
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
             'cors' => [
-                // restrict access to
                 'Origin' => ['*'],
-                'Access-Control-Request-Method' => ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
-                // Allow only POST and PUT methods
+                'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Request-Headers' => ['*'],
-                // Allow only headers 'X-Wsse'
                 'Access-Control-Allow-Credentials' => true,
-                // Allow OPTIONS caching
-                'Access-Control-Max-Age' => 3600,
-                'Access-Control-Allow-Headers' => ['Content-Type', 'Authorization'],
-                // Allow the X-Pagination-Current-Page header to be exposed to the browser.
-                'Access-Control-Expose-Headers' => [
-                    'X-Pagination-Current-Page',
-                    'X-Pagination-Page-Count',
-                    'X-Pagination-Per-Page',
-                    'X-Pagination-Total-Count'
-                ],
             ],
-            'except' => ['options'],
         ];
-
-        // re-add authentication filter
-        $behaviors['authenticator'] = $auth;
-        // avoid authentication on CORS-pre-flight requests (HTTP OPTIONS method)
-        $behaviors['authenticator']['except'] = ['options'];
 
         $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::className(),
-            'only' => ['finaliza', 'minhas-consultas'],
-            'except' => ['options'],
+            'class' => CompositeAuth::className(),
+            'authMethods' => [
+                HttpBearerAuth::className(),
+            ],
+            'except' => ['options','login', 'finaliza'],
         ];
 
+        $behaviors['contentNegotiator'] = [
+            'class' => 'yii\filters\ContentNegotiator',
+            'formats' => [
+                'application/json' => Response::FORMAT_JSON,
+            ]
+        ];
+//
+//        $behaviors['access'] = [
+//            'class' => AccessControl::className(),
+//            'only' => ['about'],
+//            'rules' => [
+//                [
+//                    'actions' => ['about'],
+//                    'allow' => true,
+//                    'roles' => ['@'],
+//                ],
+//            ],
+//        ];
+//
+//        $behaviors['verbs'] = [
+//            'class' => VerbFilter::className(),
+//            'actions' => [
+//                'logout' => ['post'],
+//            ],
+//        ];
         return $behaviors;
     }
 
@@ -82,6 +89,7 @@ class PacienteController extends ActiveController
         $model = new LoginForm();
 
         $dados = $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $model->tipoSessao = 2;
 
         if ($dados && $model->login()) {
             return ['accesstoken' => Yii::$app->user->identity->getAuthKey()];
@@ -109,11 +117,11 @@ class PacienteController extends ActiveController
     public function actionMinhasConsultas()
     {
         $query = Consulta::find()
-            ->innerJoinWith('cpfpessoa')
-            ->innerJoinWith(' pfprofissionalsaude')
+            ->innerJoinWith('paciente')
+            ->innerJoinWith('profissional')
             ->asArray()
-            ->where(['pessoa.authkey' => Yii::$app->user->identity->getAuthKey()])
-            ->andWhere(['aceito' => 'p'])
+            ->where(['paciente.authkey' => Yii::$app->user->identity->getAuthKey()])
+            ->andWhere(['situacao' => 'p'])
             ->all();
 
         return $query;
@@ -124,10 +132,15 @@ class PacienteController extends ActiveController
         $model = new Paciente();
 
         $geraToken = md5(uniqid(rand(), true));
+
+        $dados = Yii::$app->getRequest()->getBodyParams();
+        $dados = isset($dados[0]) ? $dados[0] : $dados;
+
+        $dados = $model->load($dados, '');
+
         $model->authkey = $geraToken;
         $model->datacriacao = date('Y-m-d H:i:s');
 
-        $dados = $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         if ($dados && $model->save()){
 
             return 1;
@@ -146,6 +159,15 @@ class PacienteController extends ActiveController
             ->orderBy('nome')
             ->asArray()
             ->all();
+
+        return $query;
+    }
+
+    public function actionPaciente()
+    {
+        $authkey =  Yii::$app->user->identity->getAuthKey();
+
+        $query = Paciente::findOne(['authkey' =>$authkey]);
 
         return $query;
     }

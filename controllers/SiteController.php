@@ -130,7 +130,7 @@ class SiteController extends Controller
     public function actionGerar()
     {
         $model = new GeradorTabelas();
-//        $model->geradorPais();
+        $model->geradorPais();
         $model->geradorProfissao();
         $model->classificacao();
         $model->gerarHemograma();

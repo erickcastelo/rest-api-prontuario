@@ -83,28 +83,22 @@ class EmpresaController extends Controller
 
     public function actionLogin()
     {
-        $model = new LoginEmpresa();
+        $model = new LoginForm();
 
         $dados = $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-        $model->tipoSessao = 1;
+        $model->tipoSessao = 3;
 
-        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        }else{
-            if ($dados && $model->login()) {
-                return ['accesstoken' => Yii::$app->user->identity->getAuthKey()];
-//                return $model->getUser();
-            } else {
-                $model->validate();
-                return $model->errors;
-            }
+        if ($dados && $model->login()) {
+            return ['accesstoken' => Yii::$app->user->identity->getAuthKey()];
+        } else {
+            $model->validate();
+            return $model->errors;
         }
     }
 
     public function actionEmpresa()
     {
-        $authkey =  Yii::$app->user->loginByAccessToken();
+        $authkey =  Yii::$app->user->identity->getAuthKey();
 
         $query = Empresa::findOne(['authkey' =>$authkey]);
 
