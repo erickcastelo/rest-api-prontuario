@@ -52,7 +52,7 @@ class PacienteController extends ActiveController
             'authMethods' => [
                 HttpBearerAuth::className(),
             ],
-            'except' => ['options','login', 'finaliza'],
+            'except' => ['options','login', 'finaliza', 'inserir'],
         ];
 
         $behaviors['contentNegotiator'] = [
@@ -61,25 +61,7 @@ class PacienteController extends ActiveController
                 'application/json' => Response::FORMAT_JSON,
             ]
         ];
-//
-//        $behaviors['access'] = [
-//            'class' => AccessControl::className(),
-//            'only' => ['about'],
-//            'rules' => [
-//                [
-//                    'actions' => ['about'],
-//                    'allow' => true,
-//                    'roles' => ['@'],
-//                ],
-//            ],
-//        ];
-//
-//        $behaviors['verbs'] = [
-//            'class' => VerbFilter::className(),
-//            'actions' => [
-//                'logout' => ['post'],
-//            ],
-//        ];
+
         return $behaviors;
     }
 
@@ -114,18 +96,7 @@ class PacienteController extends ActiveController
         return $model->save();
     }
 
-    public function actionMinhasConsultas()
-    {
-        $query = Consulta::find()
-            ->innerJoinWith('paciente')
-            ->innerJoinWith('profissional')
-            ->asArray()
-            ->where(['paciente.authkey' => Yii::$app->user->identity->getAuthKey()])
-            ->andWhere(['situacao' => 'p'])
-            ->all();
 
-        return $query;
-    }
 
     public function actionInserir()
     {

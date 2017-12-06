@@ -15,8 +15,11 @@ use app\models\ProfissionalSaude;
 use Yii;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
+use yii\filters\Cors;
 use yii\rest\ActiveController;
 use yii\rest\Controller;
+use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class ConsultaController extends ActiveController
@@ -31,7 +34,7 @@ class ConsultaController extends ActiveController
         unset($behaviors['authenticator']);
 
         $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::className(),
+            'class' => Cors::className(),
             'cors' => [
                 'Origin' => ['*'],
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
@@ -45,7 +48,7 @@ class ConsultaController extends ActiveController
             'authMethods' => [
                 HttpBearerAuth::className(),
             ],
-            'except' => ['login'],
+            'except' => ['options'],
         ];
 
         $behaviors['contentNegotiator'] = [
@@ -72,6 +75,23 @@ class ConsultaController extends ActiveController
             ->where(['profissionalsaude.authkey' => $token])
             ->andWhere('solicitacaoexames.codigoconsulta is null')
             ->asArray()
+            ->all();
+
+        return $query;
+    }
+
+    public function actionConsultasPacientes()
+    {
+        $request = Yii::$app->request;
+
+        $situacao = $request->get('situacao');
+
+        $query = Consulta::find()
+            ->innerJoinWith('paciente')
+            ->innerJoinWith('profissional')
+            ->asArray()
+            ->where(['paciente.authkey' => Yii::$app->user->identity->getAuthKey()])
+            ->andWhere(['situacao' => $situacao])
             ->all();
 
         return $query;
@@ -126,4 +146,18 @@ class ConsultaController extends ActiveController
         return null;
     }
 
+    public function actionFinalizarConsulta()
+    {
+        $request = Yii::$app->request;
+        $codigo = $request->get('codigo');
+
+        if (($model = Consulta::findOne($codigo)) !== null) {
+            $model->dataconsulta = date('Y-m-d H:i:s');
+            $model->situacao = 'f';
+
+            return $model->save();
+        } else {
+            return false;
+        }
+    }
 }

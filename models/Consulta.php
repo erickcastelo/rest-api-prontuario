@@ -76,12 +76,12 @@ class Consulta extends \yii\db\ActiveRecord
         return $this->hasOne(ProfissionalSaude::className(), ['numero' => 'numeroprofissionalsaude']);
     }
 
-    public function fields()
-    {
-        return [
-            'situacao' => function(Consulta $model){
-               return $model->situacao === 'p' ? 'Pendente' : 'Aprovada';
-            }
-        ];
-    }
+//    public function fields()
+//    {
+//        return [
+//            'situacao' => function(Consulta $model){
+//               return $model->situacao === 'p' ? 'Pendente' : 'Aprovada';
+//            }
+//        ];
+//    }
 }
