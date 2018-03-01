@@ -8,9 +8,14 @@ use app\models\Pais;
 use app\models\ProfissionalSaude;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
+use Yii;
 
 $this->title = 'My Yii Application';
+$teste = Yii::$app->security->generatePasswordHash('Ola mundo cruel');
+$teste2 = Yii::$app->security->generatePasswordHash('Ola mundo cruel');
 
+
+var_dump(Yii::$app->security->validatePassword('Ola mundo cruel2', $teste));die;
 ?>
 <div class="site-index">
 

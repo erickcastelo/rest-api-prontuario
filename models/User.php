@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use Yii;
+
 class User extends Pessoa implements \yii\web\IdentityInterface
 {
     public $numero;
@@ -19,6 +21,7 @@ class User extends Pessoa implements \yii\web\IdentityInterface
     //public $password;
     public $authkey;
     public $accesstoken;
+    public $password_hash;
 
     /*private static $users = [
         '100' => [
@@ -134,6 +137,11 @@ class User extends Pessoa implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->senha === $password;
+        return Yii::$app->security->validatePassword($password, $this->senha);
+    }
+
+    public function setPassword($password)
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 }

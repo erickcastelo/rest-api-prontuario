@@ -68,6 +68,12 @@ $config = [
             'showScriptName' => false,
             //'enableStrictParsing' => true,
             'rules' => [
+                 '<action>'=>'site/<action>',
+                '<alias:|about|contact|>/<id:\w+>' => 'site/<alias>',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                'module/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 [
                     'class' => 'yii\rest\UrlRule',
                     'pluralize' => false,

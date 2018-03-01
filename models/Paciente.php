@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\validators\EmailValidator;
+use yiibr\brvalidator\CpfValidator;
 
 /**
  * This is the model class for table "paciente".
@@ -55,7 +56,9 @@ class Paciente extends \yii\db\ActiveRecord
             [['numero'], 'string', 'max' => 20],
             [['email', 'rg', 'cpf'], 'unique'],
             ['email', 'validationEmail'],
-            ['confirmPassword', 'confirmationPassword']
+            ['confirmPassword', 'confirmationPassword'],
+            ['cpf', CpfValidator::className(), 'message' => 'CPF não existe'],
+
         ];
     }
 
@@ -74,11 +77,11 @@ class Paciente extends \yii\db\ActiveRecord
         $password = $this->senha;
         $confirmPassword = $this->confirmPassword;
 
-        if ($password !== $confirmPassword){
+        if (!Yii::$app->security->validatePassword($confirmPassword, $password)){
             $this->addError($attribute, 'Senhas não conferem');
         }
     }
-
+//transpetro
 
     /**
      * @inheritdoc

@@ -14,6 +14,7 @@ use app\models\LoginForm;
 use app\models\Paciente;
 use app\models\Pessoa;
 use Yii;
+use yii\console\Exception;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
@@ -100,25 +101,25 @@ class PacienteController extends ActiveController
 
     public function actionInserir()
     {
+        \Yii::$app->response->format = \yii\web\Response:: FORMAT_JSON;
+
         $model = new Paciente();
 
         $geraToken = md5(uniqid(rand(), true));
 
-        $dados = Yii::$app->getRequest()->getBodyParams();
-        $dados = isset($dados[0]) ? $dados[0] : $dados;
-
-        $dados = $model->load($dados, '');
-
         $model->authkey = $geraToken;
         $model->datacriacao = date('Y-m-d H:i:s');
 
+        $dados = $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $model->senha = Yii::$app->security->generatePasswordHash($model->senha);
         if ($dados && $model->save()){
 
-            return 1;
+            return $model;
         }
         else{
-            $model->validate();
-            return $model->errors;
+    
+            // $model->validate();
+            return $model;
         }
     }
 
