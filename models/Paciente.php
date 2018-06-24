@@ -54,9 +54,8 @@ class Paciente extends \yii\db\ActiveRecord
             [['fone'], 'string', 'max' => 9],
             [['nome'], 'string', 'max' => 90],
             [['numero'], 'string', 'max' => 20],
-            [['email', 'rg', 'cpf'], 'unique'],
+            [['email', 'rg', 'cpf', 'numero'], 'unique'],
             ['email', 'validationEmail'],
-            ['confirmPassword', 'confirmationPassword'],
             ['cpf', CpfValidator::className(), 'message' => 'CPF não existe'],
 
         ];
@@ -72,16 +71,30 @@ class Paciente extends \yii\db\ActiveRecord
         }
     }
 
-    public function confirmationPassword($attribute, $params)
-    {
-        $password = $this->senha;
-        $confirmPassword = $this->confirmPassword;
-
-        if (!Yii::$app->security->validatePassword($confirmPassword, $password)){
-            $this->addError($attribute, 'Senhas não conferem');
-        }
-    }
+//    public function confirmationPassword($attribute, $params)
+//    {
+//        $password = $this->senha;
+//        $confirmPassword = $this->confirmPassword;
+//
+//        if (!Yii::$app->security->validatePassword($confirmPassword, $password)){
+//            $this->addError($attribute, 'Senhas não conferem');
+//        }
+//    }
 //transpetro
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+
+            if ($insert) {
+                $this->authkey = Yii::$app->getSecurity()->generateRandomString();
+                $this->datacriacao = date('Y-m-d H:i:s');
+                $this->senha = Yii::$app->security->generatePasswordHash($this->senha);
+            }
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @inheritdoc

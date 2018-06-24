@@ -20,7 +20,7 @@ header("Access-Control-Max-Age: 1728000");
 header('Access-Control-Allow-Credentials: true');
 class PaisController extends ActiveController
 {
-    public $modelClass = 'app\models\Pessoa';
+    public $modelClass = 'app\models\Pais';
     public $enableCsrfValidation = false;
 
     public function behaviors() {

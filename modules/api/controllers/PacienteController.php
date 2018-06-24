@@ -22,14 +22,14 @@ use yii\web\Response;
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE, HEAD");
-//header("Access-Control-Allow-Headers: Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
+header("Access-Control-Allow-Headers: Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Max-Age: 1728000");
 header('Access-Control-Allow-Credentials: true');
 class PacienteController extends ActiveController
 {
 
-    public $modelClass = 'app\models\Pessoa';
+    public $modelClass = 'app\models\Paciente';
     public $enableCsrfValidation = false;
 
     public function behaviors() {
@@ -53,7 +53,7 @@ class PacienteController extends ActiveController
             'authMethods' => [
                 HttpBearerAuth::className(),
             ],
-            'except' => ['options','login', 'finaliza', 'inserir'],
+            'except' => ['options','login', 'finaliza', 'inserir', 'create'],
         ];
 
         $behaviors['contentNegotiator'] = [
@@ -77,8 +77,7 @@ class PacienteController extends ActiveController
         if ($dados && $model->login()) {
             return ['accesstoken' => Yii::$app->user->identity->getAuthKey()];
         } else {
-            $model->validate();
-            return $model->errors;
+            return $model;
         }
     }
 
@@ -105,19 +104,20 @@ class PacienteController extends ActiveController
 
         $model = new Paciente();
 
-        $geraToken = md5(uniqid(rand(), true));
-
-        $model->authkey = $geraToken;
-        $model->datacriacao = date('Y-m-d H:i:s');
+//        $geraToken = md5(uniqid(rand(), true));
+//
+//        $model->authkey = $geraToken;
+//        $model->datacriacao = date('Y-m-d H:i:s');
 
         $dados = $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-        $model->senha = Yii::$app->security->generatePasswordHash($model->senha);
+//        $model->senha = Yii::$app->security->generatePasswordHash($model->senha);
         if ($dados && $model->save()){
 
             return $model;
         }
+
         else{
-    
+
             // $model->validate();
             return $model;
         }
