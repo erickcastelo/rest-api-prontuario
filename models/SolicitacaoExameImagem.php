@@ -7,13 +7,13 @@ use Yii;
 /**
  * This is the model class for table "solicitacaoexameimagem".
  *
- * @property integer $numero
+ * @property integer $id
  * @property string $laudo
- * @property integer $numerosolicitacao
- * @property integer $numeroimagem
+ * @property integer $codsolicitacao
+ * @property integer $codimagem
  *
- * @property Exameimagem $numeroimagem0
- * @property Solicitacaoexames $numerosolicitacao0
+ * @property Exameimagem $codimagem0
+ * @property Solicitacaoexames $codsolicitacao0
  */
 class SolicitacaoExameImagem extends \yii\db\ActiveRecord
 {
@@ -31,10 +31,10 @@ class SolicitacaoExameImagem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numerosolicitacao', 'numeroimagem'], 'integer'],
+            [['codsolicitacao', 'codimagem'], 'integer'],
             [['laudo'], 'string', 'max' => 120],
-            [['numeroimagem'], 'exist', 'skipOnError' => true, 'targetClass' => Exameimagem::className(), 'targetAttribute' => ['numeroimagem' => 'numero']],
-            [['numerosolicitacao'], 'exist', 'skipOnError' => true, 'targetClass' => Solicitacaoexames::className(), 'targetAttribute' => ['numerosolicitacao' => 'numero']],
+            [['codimagem'], 'exist', 'skipOnError' => true, 'targetClass' => Exameimagem::className(), 'targetAttribute' => ['codimagem' => 'id']],
+            [['codsolicitacao'], 'exist', 'skipOnError' => true, 'targetClass' => Solicitacaoexames::className(), 'targetAttribute' => ['codsolicitacao' => 'id']],
         ];
     }
 
@@ -44,7 +44,7 @@ class SolicitacaoExameImagem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'numero' => 'Numero',
+            'id' => 'Id',
             'laudo' => 'Laudo',
             'numerosolicitacao' => 'Numerosolicitacao',
             'numeroimagem' => 'Numeroimagem',

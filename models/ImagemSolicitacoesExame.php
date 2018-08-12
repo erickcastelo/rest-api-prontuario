@@ -7,11 +7,12 @@ use Yii;
 /**
  * This is the model class for table "imagemsolicitacoesexame".
  *
- * @property integer $numerosolicitacao
- * @property integer $numeroimagem
+ * @property integer $id
+ * @property integer $codsolicitacao
+ * @property integer $codimagem
  *
- * @property Exameimagem $numeroimagem0
- * @property Solicitacaoexames $numerosolicitacao0
+ * @property Exameimagem $codimagem0
+ * @property Solicitacaoexames $codsolicitacao0
  */
 class ImagemSolicitacoesExame extends \yii\db\ActiveRecord
 {
@@ -29,9 +30,9 @@ class ImagemSolicitacoesExame extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numerosolicitacao', 'numeroimagem'], 'integer'],
-            [['numeroimagem'], 'exist', 'skipOnError' => true, 'targetClass' => Exameimagem::className(), 'targetAttribute' => ['numeroimagem' => 'numero']],
-            [['numerosolicitacao'], 'exist', 'skipOnError' => true, 'targetClass' => Solicitacaoexames::className(), 'targetAttribute' => ['numerosolicitacao' => 'numero']],
+            [['codsolicitacao', 'codimagem'], 'integer'],
+            [['codimagem'], 'exist', 'skipOnError' => true, 'targetClass' => Exameimagem::className(), 'targetAttribute' => ['codimagem' => 'id']],
+            [['codsolicitacao'], 'exist', 'skipOnError' => true, 'targetClass' => Solicitacaoexames::className(), 'targetAttribute' => ['codsolicitacao' => 'id']],
         ];
     }
 

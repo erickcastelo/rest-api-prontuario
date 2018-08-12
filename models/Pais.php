@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "pais".
  *
- * @property integer $codigo
+ * @property integer $id
  * @property string $nome
  * * @property string $sigla
  *
@@ -41,7 +41,7 @@ class Pais extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'codigo' => 'Codigo',
+            'id' => 'Id',
             'nome' => 'Nome',
         ];
     }
@@ -51,13 +51,13 @@ class Pais extends \yii\db\ActiveRecord
      */
     public function getPessoas()
     {
-        return $this->hasMany(Pessoa::className(), ['codpais' => 'codigo']);
+        return $this->hasMany(Pessoa::className(), ['codpais' => 'id']);
     }
 
     //último código
     public function lastCode()
     {
-        $codigo = Pais::find()->max('codigo');
+        $codigo = Pais::find()->max('id');
 
         return $codigo;
     }

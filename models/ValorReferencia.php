@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "valorreferencia".
  *
- * @property integer $codigo
+ * @property integer $id
  * @property string $faixaetaria
  * @property string $intervalo1
  * @property string $referencial
  * @property string $unidade
- * @property integer $numeroexamelaboratorial
+ * @property string $numexamelaboratorial
  *
- * @property Examelaboratorial $numeroexamelaboratorial0
+ * @property Examelaboratorial $numexamelaboratorial0
  */
 class ValorReferencia extends \yii\db\ActiveRecord
 {
@@ -32,11 +32,10 @@ class ValorReferencia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['numeroexamelaboratorial'], 'integer'],
             [['faixaetaria', 'intervalo1'], 'string', 'max' => 30],
             [['referencial'], 'string', 'max' => 20],
-            [['unidade'], 'string', 'max' => 5],
-            [['numeroexamelaboratorial'], 'exist', 'skipOnError' => true, 'targetClass' => ExameLaboratorial::className(), 'targetAttribute' => ['numeroexamelaboratorial' => 'numero']],
+            [['unidade', 'numexamelaboratorial'], 'string', 'max' => 5],
+            [['numexamelaboratorial'], 'exist', 'skipOnError' => true, 'targetClass' => ExameLaboratorial::className(), 'targetAttribute' => ['numexamelaboratorial' => 'numero']],
         ];
     }
 
@@ -46,12 +45,12 @@ class ValorReferencia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'codigo' => 'Codigo',
+            'id' => 'Id',
             'faixaetaria' => 'Faixaetaria',
             'intervalo1' => 'Intervalo1',
             'referencial' => 'Referencial',
             'unidade' => 'Unidade',
-            'numeroexamelaboratorial' => 'Numeroexamelaboratorial',
+            'numexamelaboratorial' => 'Numeroexamelaboratorial',
         ];
     }
 

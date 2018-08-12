@@ -7,12 +7,12 @@ use Yii;
 /**
  * This is the model class for table "consulta".
  *
- * @property string $codigo
+ * @property integer $id
  * @property string $datacriacao
  * @property string $dataconsulta
  * @property string $situacao
- * @property string $numeropaciente
- * @property string $numeroprofissionalsaude
+ * @property string codpaciente
+ * @property string codprofissionalsaude
  * @property string $descricao
  *
  * @property Paciente $numeropaciente0
@@ -34,12 +34,11 @@ class Consulta extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['codigo', 'datacriacao'], 'required'],
+            [['datacriacao'], 'required'],
             [['datacriacao', 'dataconsulta'], 'safe'],
-            [['codigo'], 'integer'],
+            [['codpaciente', 'codprofissionalsaude'], 'integer'],
             [['situacao'], 'string', 'max' => 1],
             [['descricao'], 'string', 'max' => 120],
-            [['numeropaciente', 'numeroprofissionalsaude'], 'string', 'max' => 40],
             [['numeropaciente'], 'exist', 'skipOnError' => true, 'targetClass' => Paciente::className(), 'targetAttribute' => ['numeropaciente' => 'numero']],
             [['numeroprofissionalsaude'], 'exist', 'skipOnError' => true, 'targetClass' => ProfissionalSaude::className(), 'targetAttribute' => ['numeroprofissionalsaude' => 'numero']],
         ];
@@ -51,7 +50,7 @@ class Consulta extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'codigo' => 'Codigo',
+            'id' => 'Id',
             'datacriacao' => 'Datacriacao',
             'dataconsulta' => 'Dataconsulta',
             'situacao' => 'Situacao',

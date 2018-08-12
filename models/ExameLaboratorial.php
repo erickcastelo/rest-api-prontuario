@@ -7,13 +7,11 @@ use Yii;
 /**
  * This is the model class for table "examelaboratorial".
  *
- * @property integer $numero
+ * @property string $numero
  * @property string $nome
- * @property integer $numeroclassificacao
+ * @property integer $codclassificacao
  * @property integer $possui
  *
- * @property Classificacao $numeroclassificacao0
- * @property ExameLaboratorial $possui0
  * @property ExameLaboratorial[] $exameLaboratorials
  * @property Solicitacaoexames[] $solicitacaoexames
  */
@@ -36,8 +34,6 @@ class ExameLaboratorial extends \yii\db\ActiveRecord
             [['numero', 'nome'], 'required'],
             [['nome'], 'string', 'max' => 60],
             [['numero', 'possui'], 'string', 'max' => 5],
-            [['numeroclassificacao'], 'integer'],
-            [['numeroclassificacao'], 'exist', 'skipOnError' => true, 'targetClass' => Classificacao::className(), 'targetAttribute' => ['numeroclassificacao' => 'numero']],
             [['possui'], 'exist', 'skipOnError' => true, 'targetClass' => ExameLaboratorial::className(), 'targetAttribute' => ['possui' => 'numero']],
         ];
     }
@@ -48,9 +44,9 @@ class ExameLaboratorial extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'numero' => 'Numero',
+            'numero' => 'numero',
             'nome' => 'Nome',
-            'numeroclassificacao' => 'Numeroclassificacao',
+            'codclassificacao' => 'Numeroclassificacao',
             'possui' => 'Possui',
         ];
     }

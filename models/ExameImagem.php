@@ -7,6 +7,7 @@ use Yii;
 /**
  * This is the model class for table "exameimagem".
  *
+ * @property integer $id
  * @property integer $numero
  * @property string $nome
  *
@@ -40,6 +41,7 @@ class ExameImagem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'Id',
             'numero' => 'Numero',
             'nome' => 'Nome',
         ];

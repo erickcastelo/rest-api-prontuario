@@ -7,13 +7,13 @@ use Yii;
 /**
  * This is the model class for table "solicitacaoexamelab".
  *
- * @property integer $numero
+ * @property integer $id
  * @property string $resultado
- * @property integer $numerosolicitacao
- * @property string $numeroexamelab
+ * @property integer $codsolicitacao
+ * @property string $numexamelab
  *
- * @property Examelaboratorial $numeroexamelab0
- * @property Solicitacaoexames $numerosolicitacao0
+ * @property Examelaboratorial $numexamelab0
+ * @property Solicitacaoexames $codsolicitacao0
  */
 class SolicitacaoExameLab extends \yii\db\ActiveRecord
 {
@@ -33,9 +33,9 @@ class SolicitacaoExameLab extends \yii\db\ActiveRecord
         return [
             [['numerosolicitacao'], 'integer'],
             [['resultado'], 'string', 'max' => 120],
-            [['numeroexamelab'], 'string', 'max' => 5],
-            [['numeroexamelab'], 'exist', 'skipOnError' => true, 'targetClass' => Examelaboratorial::className(), 'targetAttribute' => ['numeroexamelab' => 'numero']],
-            [['numerosolicitacao'], 'exist', 'skipOnError' => true, 'targetClass' => Solicitacaoexames::className(), 'targetAttribute' => ['numerosolicitacao' => 'numero']],
+            [['numexamelab'], 'string', 'max' => 5],
+            [['numexamelab'], 'exist', 'skipOnError' => true, 'targetClass' => Examelaboratorial::className(), 'targetAttribute' => ['numexamelab' => 'numero']],
+            [['codsolicitacao'], 'exist', 'skipOnError' => true, 'targetClass' => Solicitacaoexames::className(), 'targetAttribute' => ['codsolicitacao' => 'id']],
         ];
     }
 
@@ -45,7 +45,7 @@ class SolicitacaoExameLab extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'numero' => 'Numero',
+            'id' => 'Id',
             'resultado' => 'Resultado',
             'numerosolicitacao' => 'Numerosolicitacao',
             'numeroexamelab' => 'Numeroexamelab',

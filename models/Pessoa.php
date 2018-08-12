@@ -4,16 +4,19 @@ namespace app\models;
 
 use Yii;
 use yii\validators\EmailValidator;
+use yiibr\brvalidator\CpfValidator;
 
 /**
  * This is the model class for table "pessoa".
  *
+ * @property integer $id
  * @property string $email
  * @property string $rg
  * @property string $cpf
  * @property string $accesstoken
  * @property string $authkey
  * @property string $datacriacao
+ * @property string $dataalteracao
  * @property string $fone
  * @property string $datanascimento
  * @property string $nome
@@ -23,6 +26,10 @@ use yii\validators\EmailValidator;
  * @property string $foto
  * @property string $endereco
  * @property string $bairro
+ * @property string $cep
+ * @property string complemento
+ * @property string cidade
+ * @property string uf
  *
  * @property Pais $codpais0
  * @property Pessoa $responsavel0
@@ -43,27 +50,43 @@ class Pessoa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'rg', 'cpf', 'fone', 'nome', 'senha'], 'required'],
-            [['datacriacao', 'datanascimento'], 'safe'],
+            [['email', 'rg', 'cpf', 'nome', 'senha'], 'required'],
+            [['datacriacao', 'datanascimento', 'dataalteracao'], 'safe'],
             [['codpais'], 'integer'],
-            [['email', 'senha', 'responsavel', 'bairro'], 'string', 'max' => 60],
+            [['email', 'senha', 'responsavel', 'bairro', 'cidade'], 'string', 'max' => 60],
+            [['uf'], 'string', 'max' => 2],
             [['rg'], 'string', 'max' => 13],
             [['cpf'], 'string', 'max' => 11],
+            [['cep'], 'string', 'max' => 8],
             [['foto'], 'string'],
-            [['accesstoken', 'authkey', 'endereco'], 'string', 'max' => 120],
+            [['accesstoken', 'authkey', 'endereco', 'complemento'], 'string', 'max' => 120],
             [['fone'], 'string', 'max' => 9],
             [['nome'], 'string', 'max' => 90],
             [['codpais'], 'exist', 'skipOnError' => true, 'targetClass' => Pais::className(), 'targetAttribute' => ['codpais' => 'codigo']],
-            [['responsavel'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['responsavel' => 'email']],
+            ['email', 'validationEmail'],
+            ['cpf', CpfValidator::className(), 'message' => 'CPF não existe'],
+//            [['responsavel'], 'exist', 'skipOnError' => true, 'targetClass' => Pessoa::className(), 'targetAttribute' => ['responsavel' => 'email']],
 
         ];
     }
+
+    public function validationEmail($attribute, $params)
+    {
+        $email = $this->email;
+        $validator = new EmailValidator();
+
+        if (!$validator->validate($email, $error)){
+            $this->addError($attribute, 'Email é inválido');
+        }
+    }
+
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
+            'id' => 'Id',
             'email' => 'Email',
             'rg' => 'Rg',
             'cpf' => 'Cpf',
@@ -77,29 +100,5 @@ class Pessoa extends \yii\db\ActiveRecord
             'codpais' => 'Codpais',
             'responsavel' => 'Responsavel',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCodpais0()
-    {
-        return $this->hasOne(Pais::className(), ['codigo' => 'codpais']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getResponsavel0()
-    {
-        return $this->hasOne(Pessoa::className(), ['email' => 'responsavel']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPessoas()
-    {
-        return $this->hasMany(Pessoa::className(), ['responsavel' => 'email']);
     }
 }

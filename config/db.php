@@ -2,8 +2,8 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'pgsql:host=localhost;port=5432;dbname=prontuario',
+    'dsn' => 'pgsql:host=postgres;port=5432;dbname=prontuario',
     'username' => 'postgres',
-    'password' => 'root',
+    'password' => '123456',
     'charset' => 'utf8',
 ];

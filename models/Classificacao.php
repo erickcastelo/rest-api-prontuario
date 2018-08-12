@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "classificacao".
  *
- * @property integer $numero
+ * @property integer $id
  * @property string $nome
  *
  * @property Examelaboratorial[] $examelaboratorials
@@ -40,7 +40,7 @@ class Classificacao extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'numero' => 'Numero',
+            'id' => 'Id',
             'nome' => 'Nome',
         ];
     }
@@ -50,13 +50,13 @@ class Classificacao extends \yii\db\ActiveRecord
      */
     public function getExamelaboratorials()
     {
-        return $this->hasMany(Examelaboratorial::className(), ['numeroclassificacao' => 'numero']);
+        return $this->hasMany(Examelaboratorial::className(), ['numeroclassificacao' => 'id']);
     }
 
     public function lastNumber()
     {
         $query = Classificacao::find()
-            ->select('numero')
+            ->select('id')
             ->one();
 
         return $query;
