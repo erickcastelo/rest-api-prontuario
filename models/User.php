@@ -10,15 +10,18 @@ class User extends Pessoa implements \yii\web\IdentityInterface
     public $cpf;
     public $rg;
     public $nome;
-    public $login;
     public $senha;
     public $datanascimento;
     public $datacriacao;
     public $fone;
-    public $numerotipo;
     public $responsavel;
-    //public $username;
-    //public $password;
+    public $foto;
+    public $endereco;
+    public $bairro;
+    public $cep;
+    public $complemento;
+    public $cidade;
+    public $uf;
     public $authkey;
     public $accesstoken;
     public $password_hash;
@@ -53,8 +56,6 @@ class User extends Pessoa implements \yii\web\IdentityInterface
         if ($user){
             return new static($user);
         }
-
-        //return parent::findOne(['id' => $id]);
     }
 
     /**
@@ -62,12 +63,6 @@ class User extends Pessoa implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        /*foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }*/
-
         $user = Pessoa::find()
             ->where(['authkey' => $token])
             ->one();
@@ -77,8 +72,6 @@ class User extends Pessoa implements \yii\web\IdentityInterface
         }
 
         return null;
-        //var_dump(static::findOne(['authkey' => $token])->); die();
-        //return static::findOne(['authkey' => $token]);
     }
 
     /**
@@ -96,8 +89,6 @@ class User extends Pessoa implements \yii\web\IdentityInterface
         if ($user){
             return new static($user);
         }
-
-        //return parent::findOne(['login' => $username]);
     }
 
     /**
@@ -105,7 +96,7 @@ class User extends Pessoa implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        return $this->numero;
+        return $this->id;
     }
 
     /**

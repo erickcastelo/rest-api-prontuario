@@ -18,7 +18,7 @@ class PacienteController extends StandardController
 {
 
     public $modelClass = 'app\models\Paciente';
-    public $exceptions = ['options','login', 'finaliza', 'insert', 'create', 'update'];
+    public $exceptions = ['options','login', 'create'];
 
     public function actionLogin()
     {
@@ -28,7 +28,7 @@ class PacienteController extends StandardController
         $model->tipoSessao = 2;
 
         if ($dados && $model->login()) {
-            return ['accesstoken' => Yii::$app->user->identity->getAuthKey()];
+            return ['user' => Paciente::findOne(['id' => Yii::$app->user->identity->getId()])];
         } else {
             return $model;
         }
@@ -47,21 +47,6 @@ class PacienteController extends StandardController
         $model->aceito = $aceito;
 
         return $model->save();
-    }
-
-    public function actionInsert()
-    {
-        \Yii::$app->response->format = \yii\web\Response:: FORMAT_JSON;
-
-        $model = new Paciente();
-
-        $dados = $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-        if ($dados && $model->save()){
-            return $model;
-        }
-        else{
-             return $model;
-        }
     }
 
     public function actionListPacientes()

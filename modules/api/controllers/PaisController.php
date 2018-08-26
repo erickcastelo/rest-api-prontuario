@@ -15,7 +15,7 @@ use yii\rest\ActiveController;
 class PaisController extends StandardController
 {
     public $modelClass = 'app\models\Pais';
-    public $exceptions = ['options', 'paises'];
+    public $exceptions = ['options', 'paises', 'index', 'create'];
 
     public function actionPaises()
     {
