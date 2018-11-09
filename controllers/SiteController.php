@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\TesteComponent;
 use app\models\GeradorTabelas;
+use JasperPHP\JasperPHP;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
@@ -12,7 +13,6 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-
 class SiteController extends Controller
 {
     /**
@@ -117,14 +117,11 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
+
     public function actionAbout()
     {
-        return $this->render('about');
+        // Set alias for sample directory
+//        JasperPHP::compile(base_path('/vendor/cossou/jasperphp/examples/hello_world.jrxml'))->execute();
     }
 
     public function actionGerar()
